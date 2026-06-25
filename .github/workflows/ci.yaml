@@ -17,6 +17,10 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
+      - name: Set lowercase owner
+        run: |
+          echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Login GHCR
         uses: docker/login-action@v3
         with:
@@ -27,15 +31,14 @@ jobs:
       - name: Build Image
         run: |
           docker build \
-            -t ghcr.io/1705alwwan/tebakwarna:latest \
+            -t ghcr.io/${OWNER_LC}/tebakwarna:latest \
             .
 
       - name: Push Image
         run: |
           docker push \
-            ghcr.io/1705alwwan/tebakwarna:latest
+            ghcr.io/${OWNER_LC}/tebakwarna:latest
 
-      - name: Show Image
+      - name: Debug
         run: |
-          echo "Image pushed:"
-          echo "ghcr.io/1705alwwan/tebakwarna:latest"
+          echo "Owner = ${OWNER_LC}"
