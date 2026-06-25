@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: tebakwarna
+  namespace: default
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tebakwarna
+
+  template:
+    metadata:
+      labels:
+        app: tebakwarna
+
+    spec:
+      containers:
+      - name: tebakwarna
+        image: tebakwarna:v1
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 80
